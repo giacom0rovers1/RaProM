@@ -297,12 +297,9 @@ def CorrectorFile(fid):
     NameFile=fid 
 
     FileCorre=NameFile[:-4]+'-corrected.raw' #create a new file
-
     
-
     folderName='Moved'
-    if not os.path.exists(folderName):
-        os.mkdir(folderName)
+
     
     f1=open(FileCorre,'w+')
 
@@ -366,6 +363,8 @@ def CorrectorFile(fid):
         os.remove(FileCorre)
         OutName=NameFile
     else:
+        if not os.path.exists(folderName):
+            os.mkdir(folderName)
         shutil.copy(os.path.join('folder', NameFile), folderName)
         os.remove(NameFile)
         OutName=FileCorre
@@ -1579,23 +1578,41 @@ Deltav=Deltaf*lamb/2.
 Ocurrence=50.#value in % of ocurrence in the averaging matrix
 
 
+# This line breaks numpy>1.19, commented. (Roversi)
+# np.warnings.filterwarnings('ignore')#to avoid the error messages
 
-np.warnings.filterwarnings('ignore')#to avoid the error messages
 
-
-
-print('Insert the path where the raw are --for instance d:\Mrrdata/')
-Root=input()  #input from the user 
-os.chdir(Root)
-
-########INCLUDE THE OPTIONS IN EXECUTATION
-
-if len(sys.argv)==1:
-    option=0
+########
 h0_opt=np.nan#c_opt=0;c1=0;c2=0;c3=0;h0_opt=np.nan
-if len(sys.argv)>1:
-    for i in sys.argv:
-   
+options=len(sys.argv)-1
+    
+if len(sys.argv)>0:
+    i = sys.argv[1]
+    if i[0:2]=='-h':
+        #print('The first height has been changed\n')
+        h0_opt=float(i[2:])
+        ## option=0
+        ## c_opt+=1
+        ## c3=1
+        
+    if options==1:
+        print('Insert the path where the raw are (e.g. "/home/MRR/data/")')
+        Root=input()  #input from the user 
+        print('Insert the number of seconds for integration (usually 60 seconds)')
+        IntTime=input()
+
+    elif options == 3:
+        Root = sys.argv[2]
+        IntTime = int(sys.argv[3])
+        print(f"Root folder path: {Root}, integration time: {IntTime}")
+
+    else:
+        print("Usage: python RaProM_38.py <root_folder_path> <integration_time>")
+        sys.exit(1)
+
+os.chdir(Root)
+IntTime=int(IntTime)
+
 ##        if i=='-spe3D':
 ##            #print('Your chosen option is to save the corrected spectral reflectivity values\n')
 ##            option=1
@@ -1607,19 +1624,9 @@ if len(sys.argv)>1:
 ##            option=2
 ##            c_opt+=1
 ##            c2=1
-        if i[0:2]=='-h':
-            #print('The first height has been changed\n')
-            h0_opt=float(i[2:])
-##            option=0
-##            c_opt+=1
-##            c3=1
+        
 if ~np.isnan(h0_opt):
     print('\nThe antenna height has been changed to ',str(h0_opt),' m\n')
-
-
-print('Insert the number of seconds for integration (usually 60 seconds)')
-IntTime=input()
-IntTime=int(IntTime)
 
 folder=Root
 dircf=glob.glob(Root+'*.raw')
