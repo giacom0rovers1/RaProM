@@ -1655,9 +1655,9 @@ for name in dircf:
     HIcolum=Hini.split()
     HIcolum=map(int,HIcolum[1:len(HIcolum)])#Get the height values and change to integer
     if np.isnan(h0_opt):
-        HIcolum2=np.fromiter(HIcolum,dtype=np.int)
+        HIcolum2=np.fromiter(HIcolum,dtype=int)
     else:
-        HIcolum2=h0_opt+np.fromiter(HIcolum,dtype=np.int)
+        HIcolum2=h0_opt+np.fromiter(HIcolum,dtype=int)
 
 ##    print('altures',HIcolum2)
     ##Found the parameters dv in function of the height (mrr physics equation)
@@ -1925,10 +1925,10 @@ for name in dircf:
         Hcolum=H.split()
         Hcolum=map(int,Hcolum[1:len(Hcolum)])#Get the height values and change to integer
         if np.isnan(h0_opt):
-            Harray=np.fromiter(Hcolum,dtype=np.int)
+            Harray=np.fromiter(Hcolum,dtype=int)
         else:
-            Harray=h0_opt+np.fromiter(Hcolum,dtype=np.int)
-##        Harray=np.fromiter(Hcolum,dtype=np.int)
+            Harray=h0_opt+np.fromiter(Hcolum,dtype=int)
+##        Harray=np.fromiter(Hcolum,dtype=int)
         DeltaH=Harray[5]-Harray[4]#Height difference
 
         #Read the tranference function (third line from raw file)
@@ -1936,7 +1936,7 @@ for name in dircf:
         FT=FT.strip()
         FTcolum=FT.split()
         FTcolum=map(float,FTcolum[1:len(FTcolum)])
-        FTarray=np.fromiter(FTcolum,dtype=np.float)
+        FTarray=np.fromiter(FTcolum,dtype=float)
         vectorV=np.arange(0,64*fNy,fNy)
         
 
@@ -1956,7 +1956,7 @@ for name in dircf:
             Data=Data.strip()
             Data=Data.split()
             Dades1=map(int,Data[1:len(Data)]) #extract the title for eac line F00, F01, etc
-            Dades=np.fromiter(Dades1,dtype=np.int)
+            Dades=np.fromiter(Dades1,dtype=int)
 
             
             FQ.append(Data[0])
@@ -2182,6 +2182,7 @@ for name in dircf:
         nc_TypePrecipitation.units='none'
 
         nc_TypePrecipitation[:,:]=np.array(np.ma.masked_invalid(PrepTypeC),dtype='f')
+    print('\r\n\nRaProM completed successfully.')
     print(datetime.datetime.now())
     print('\r\n')
 
