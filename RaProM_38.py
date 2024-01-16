@@ -1578,37 +1578,59 @@ Deltav=Deltaf*lamb/2.
 Ocurrence=50.#value in % of ocurrence in the averaging matrix
 
 
-# This line breaks numpy>1.19, commented. (Roversi)
-# np.warnings.filterwarnings('ignore')#to avoid the error messages
+# This line breaks numpy>1.19.5, should be commented. (G. Roversi)
+np.warnings.filterwarnings('ignore')#to avoid the error messages
+
+# Other error for numpy>1.19.5:
+
+    # Traceback (most recent call last):
+    # File "/home/STUDENTI/giacomo.roversi2/RaProM/RaProM_38.py", line 2116, in <module>
+    #     estat,NewMatrix,z_da,Lwc,Rr,SnowRate,w,sig,sk,Noi,DSD,NdE,Ze,Mov,velTur,snr,kur,PiA_par,NW,DM,PiA=Process(proeta,Harray[1:],timeVec,D)
+    # File "/home/STUDENTI/giacomo.roversi2/RaProM/RaProM_38.py", line 1140, in Process
+    #     value3=np.nansum(np.prod([np.power(D[m],3),LastN,dif2,w],axis=0))
+    # File "<__array_function__ internals>", line 200, in prod
+    # File "/home/STUDENTI/giacomo.roversi2/anaconda3/lib/python3.8/site-packages/numpy/core/fromnumeric.py", line 3076, in prod
+    #     return _wrapreduction(a, np.multiply, 'prod', axis, dtype, out,
+    # File "/home/STUDENTI/giacomo.roversi2/anaconda3/lib/python3.8/site-packages/numpy/core/fromnumeric.py", line 86, in _wrapreduction
+    #     return ufunc.reduce(obj, axis, dtype, out, **passkwargs)
+    # ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (4,) + inhomogeneous part.
 
 
 ########
 h0_opt=np.nan#c_opt=0;c1=0;c2=0;c3=0;h0_opt=np.nan
 options=len(sys.argv)-1
+
+if options > 0:
+    # Check if h0_opt is specified
+    for i in sys.argv:
+        if i[0:2]=='-h':
+            #print('The first height has been changed\n')
+            h0_opt=float(i[2:])
+            ## option=0
+            ## c_opt+=1
+            ## c3=1  
+
+# index correction
+if np.isnan(h0_opt):
+    c=0
+else:
+    c=1
     
-if len(sys.argv)>0:
-    i = sys.argv[1]
-    if i[0:2]=='-h':
-        #print('The first height has been changed\n')
-        h0_opt=float(i[2:])
-        ## option=0
-        ## c_opt+=1
-        ## c3=1
-        
-    if options==1:
-        print('Insert the path where the raw are (e.g. "/home/MRR/data/")')
-        Root=input()  #input from the user 
-        print('Insert the number of seconds for integration (usually 60 seconds)')
-        IntTime=input()
+# Interactive raw folder and integration time
+if options < 1+c :
+    print('Insert the path where the raw are (e.g. "/home/MRR/data/")')
+    Root=input()  #input from the user 
+    print('Insert the number of seconds for integration (usually 60 seconds)')
+    IntTime=input()
+    
+elif options == 2+c :
+    Root = sys.argv[1+c]
+    IntTime = int(sys.argv[2+c])
+    print(f"Root folder path: {Root}, integration time: {IntTime}")
 
-    elif options == 3:
-        Root = sys.argv[2]
-        IntTime = int(sys.argv[3])
-        print(f"Root folder path: {Root}, integration time: {IntTime}")
-
-    else:
-        print("Usage: python RaProM_38.py <root_folder_path> <integration_time>")
-        sys.exit(1)
+else:
+    print("Usage: python RaProM_38.py (-hxxx) <root_folder_path> <integration_time>")
+    sys.exit(1)
 
 os.chdir(Root)
 IntTime=int(IntTime)
