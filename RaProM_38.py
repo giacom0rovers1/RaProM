@@ -1820,32 +1820,33 @@ for name in dircf:
 
     while 1:
         
-        
-        if countwork==7:
-            sys.stdout.write('\b\b\b\b\b\b\b-------\r')
-            countwork=0
-        if countwork==0:
-            sys.stdout.write('working')
-            
-        if countwork==6:
-            sys.stdout.write('\b\b\b\b\b\b\bw-rking\r')
-        
-        if countwork==5:
-            sys.stdout.write('\b\b\b\b\b\b\bwo-king\r')
-        
-        if countwork==4:
-            sys.stdout.write('\b\b\b\b\b\b\bwor-ing\r')
-        
-        if countwork==3:
-            sys.stdout.write('\b\b\b\b\b\b\bwork-ng\r')
-        
-        if countwork==2:
-            sys.stdout.write('\b\b\b\b\b\b\bworki-g\r')
-        
-        if countwork==1:
-            sys.stdout.write('\b\b\b\b\b\b\bworkin-\r')
-        
-        countwork+=1
+        # # Not so useful and clutters log file
+        #
+        # if countwork==7:
+        #     sys.stdout.write('\b\b\b\b\b\b\b-------\r')
+        #     countwork=0
+        # if countwork==0:
+        #     sys.stdout.write('working')
+        #            
+        # if countwork==6:
+        #     sys.stdout.write('\b\b\b\b\b\b\bw-rking\r')
+        #        
+        # if countwork==5:
+        #     sys.stdout.write('\b\b\b\b\b\b\bwo-king\r')
+        #        
+        # if countwork==4:
+        #     sys.stdout.write('\b\b\b\b\b\b\bwor-ing\r')
+        #        
+        # if countwork==3:
+        #     sys.stdout.write('\b\b\b\b\b\b\bwork-ng\r')
+        #       
+        # if countwork==2:
+        #     sys.stdout.write('\b\b\b\b\b\b\bworki-g\r')
+        #        
+        # if countwork==1:
+        #     sys.stdout.write('\b\b\b\b\b\b\bworkin-\r')
+        #        
+        # countwork+=1
             
         
         
